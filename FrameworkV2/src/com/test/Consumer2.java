@@ -11,7 +11,7 @@ public class Consumer2 extends Thread {
 	static int processedWindowStartIndex = 0;
 	static Consumer2 objConsumer2 = null;
 	private static int ratingCounter = 0;
-	int windowSize = 10;
+	int windowSize = 20;
 
 	public static Consumer2 getInstance() {
 		if (objConsumer2 == null) {
@@ -108,16 +108,23 @@ public class Consumer2 extends Thread {
 
 	int[][] getWindow() {
 		int windowStartIndex = SegStats.count - windowSize;
-		int[][] window = new int[4][10];
-
+		int[][] window = new int[4][windowSize];
+		StringBuffer objStringBuffer = new StringBuffer();
+		objStringBuffer.append(" Consumer 2 array \n");
 		int windowColIndex = 0;
 		for (int row = 0; row < 4; row++) {
 			windowColIndex = 0;
 			for (int col = windowStartIndex; col < (windowStartIndex + windowSize); col++) {
 				window[row][windowColIndex] = SegStats.arrDiffCollage[row][col];
+				objStringBuffer.append(window[row][windowColIndex]);
 				windowColIndex++;
+
 			}
+			objStringBuffer.append("/n");
 		}
+		logger.info(objStringBuffer.toString());
+		
+		
 		return window;
 	}
 	void printOutliers(LinkedBlockingQueue<Integer> outliers, int[] row, int rowNum) {
